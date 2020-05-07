@@ -1,29 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Content from './components/Content';
+import Header from './components/Header';
+import Total from './components/Total';
 
 const App = () => {
-  const part1 = 'Fundamentals of React'
-  const exercises1 = 10;
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7;
-  const part3 = 'State of a component'
-  const exercises3 = 14;
+
+  const course = {
+    name: 'Half stack application development',
+    parts: [{
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }]
+  }
 
   return (
     <div>
-      <h1>{course}</h1>
-      <p>
-        {part1} {exercises1}
-      </p>
-      <p>
-        {part2} {exercises2}
-      </p>
-      <p>
-        {part3} {exercises3}
-      </p>
-      <p>
-        Number of exercises {exercises1 + exercises2 + exercises3}
-      </p>
+      <Header course={course} />
+      <Content parts={course.parts} />
+      <Total total={course.parts} />
     </div>
   )
 }
@@ -35,8 +38,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
