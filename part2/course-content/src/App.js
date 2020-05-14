@@ -1,5 +1,6 @@
 import React from 'react';
 import Course from './components/Course'
+import shortid from 'shortid';
 
 const App = () => {
   const courses = [
@@ -48,7 +49,7 @@ const App = () => {
   ]
   return (
     <div>
-      {courses.map((i, index) => <Course course={courses[index]} />)}
+      {courses.map((i) => <Course course={i} key={shortid.generate()} />)}
     </div>
   )
 }
