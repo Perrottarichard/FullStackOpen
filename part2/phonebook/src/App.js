@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
+import AddEntryForm from './components/AddEntryForm';
+import FilterBox from './components/FilterBox';
+import DisplayDirectory from './components/DisplayDirectory';
 
 const App = () => {
+
+  //CONST VARIABLES
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
     { name: 'Ada Lovelace', number: '39-44-5323523' },
@@ -12,21 +17,7 @@ const App = () => {
   const [searchName, setSearchName] = useState('')
   const [showAll, setShowAll] = useState(true)
 
-  const entriesToShow = showAll ? persons : persons.filter(p => p.name.toString().toLowerCase().indexOf(searchName.toLowerCase()) !== -1)
-
-  const addEntry = (event) => {
-    event.preventDefault()
-    if (persons.filter(p => p.name === newName).length > 0) {
-      alert(`${newName} is already in the phonebook`)
-    } else {
-      const nameObject = {
-        name: newName,
-        number: newNumber
-      }
-      setPersons(persons.concat(nameObject))
-      setNewName('')
-    }
-  }
+  //EVENT HANDLERS
   const handlePersonInput = (event) => {
     setNewName(event.target.value);
   }
@@ -46,27 +37,23 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        Filter shown: <input
-          value={searchName}
-          onChange={handleSearchName} />
-      </div>
-      <h2>Add New Entry</h2>
-      <form onSubmit={addEntry}>
-        <div>
-          Name: <input
-            value={newName}
-            onChange={handlePersonInput} />
-        </div>
-        <div>Number: <input
-          value={newNumber}
-          onChange={handleNumberInput} /></div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <FilterBox
+        searchName={searchName}
+        handleSearchName={handleSearchName} />
+      <AddEntryForm persons={persons}
+        setPersons={setPersons}
+        newName={newName}
+        setNewName={setNewName}
+        handlePersonInput={handlePersonInput}
+        handleNumberInput={handleNumberInput}
+        newNumber={newNumber}
+        setNewNumber={setNewNumber}
+      />
       <h2>Numbers</h2>
-      {entriesToShow.map(p => <ul key={p.name}>{p.name} : {p.number}</ul>)}
+      <DisplayDirectory
+        persons={persons}
+        showAll={showAll}
+        searchName={searchName} />
     </div>
   )
 }
