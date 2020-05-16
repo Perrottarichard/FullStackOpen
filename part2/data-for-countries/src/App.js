@@ -31,6 +31,7 @@ const App = () => {
         handleSearchCountry={handleSearchCountry} />
       <DisplayCountry
         searchName={searchName}
+        setSearchName={setSearchName}
         country={country}
       />
     </div>
