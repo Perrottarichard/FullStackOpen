@@ -2,19 +2,21 @@ import React from 'react';
 
 const DisplayCountry = (props) => {
 
-    const { country, searchName, setSearchName, setWeatherLock, weather, setShowWeather, isLoading, setIsLoading } = props;
+    const { country, searchName, setSearchName, setWeatherLock, weather, showWeather, setShowWeather, setIsLoading } = props;
 
     const showClick = (c) => {
         setSearchName(c.name);
         setWeatherLock(false);
     }
     const clickShowWeather = () => {
-        setIsLoading(true);
         setWeatherLock(false)
+        setTimeout(() => {
+            setIsLoading(true);
+        }, 500);
         setTimeout(() => {
             setShowWeather(true);
             setIsLoading(false)
-        }, 3000);
+        }, 5000);
     }
     const renderAll = (c) => {
         return (
@@ -23,8 +25,15 @@ const DisplayCountry = (props) => {
                 <h3>Capital city: {c.capital}</h3>
                 <h3>Population: {c.population}</h3>
                 <h3>Languages: {c.languages.map(l => <li key={l.name}>{l.name}</li>)}</h3>
-                <img style={{ width: 350, height: 200, borderColor: 'black', borderStyle: 'solid', borderWidth: 2 }} src={c.flag} alt={`${c.name} flag`} />
+                <img style={{ width: 350, height: 200, }} src={c.flag} alt={`${c.name} flag`} />
                 <h3>Weather: <button onClick={clickShowWeather}>show</button></h3>
+                {(showWeather) ? <div>
+                    <h3>City: {weather.location.name}</h3>
+                    <h3>Current Temperature: {weather.current.temperature} degrees celsius</h3>
+                    <h3>Description: {weather.current.weather_descriptions[0]}</h3>
+                    <h3>UV-Index: {weather.current.uv_index}</h3>
+                    <h3>Wind-speed: {weather.current.wind_speed}</h3>
+                </div> : <p></p>}
             </div>
         )
     }

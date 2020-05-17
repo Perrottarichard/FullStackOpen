@@ -64,9 +64,6 @@ const App = () => {
         setIsLoading={setIsLoading}
       />
       {isLoading ? <Loader /> : <p></p>}
-      {(showWeather) ? <div>
-        <h3>Current temperature is {weather.current.temperature}</h3>
-      </div> : <p></p>}
     </div>
   )
 }
