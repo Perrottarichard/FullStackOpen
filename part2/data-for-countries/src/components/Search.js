@@ -2,12 +2,12 @@ import React from 'react';
 
 const SearchBar = (props) => {
 
-    const { searchCountry, handleSearchCountry } = props;
+    const { searchName, handleSearchCountry } = props;
 
     return (
         <div>
             <h2>Search for Country: <input
-                value={searchCountry}
+                value={searchName}
                 onChange={handleSearchCountry} />
             </h2>
         </div>

@@ -2,28 +2,35 @@ import React from 'react';
 
 const DisplayCountry = (props) => {
 
-    const { country, searchName, setSearchName } = props;
+    const { country, searchName, setSearchName, weather, weatherLock, setWeatherLock } = props;
 
     const showClick = (c) => {
-        setSearchName(c.name)
+        setSearchName(c.name);
+        setWeatherLock(false);
+
     }
 
-    let countryToShow = country.filter(p => p.name.toString().toLowerCase().indexOf(searchName.toLowerCase()) !== -1)
-
-    if (countryToShow.filter(c => c.name).length === 1) {
+    const renderAll = (c) => {
         return (
             <div>
-                {countryToShow.map(c => <h1 key={c.name}>{c.name}</h1>)}
-                {countryToShow.map(c => <h3 key={c.name}>Capital city: {c.capital}</h3>)}
-                {countryToShow.map(c => <h3 key={c.name}>Population: {c.population}</h3>)}
-                {countryToShow.map(c => <h3 key={c.name}>Languages: {c.languages.map(l => <p key={l.name}>{l.name}</p>)}</h3>)}
-                <div >
-                    {countryToShow.map(c => <img style={{ width: 350, height: 200, borderColor: 'black', borderStyle: 'solid', borderWidth: 2 }} key={c.name} src={c.flag} alt={`${c.name} flag`} />)}
-                </div>
+                <h1>{c.name}</h1>
+                <h3>Capital city: {c.capital}</h3>
+                <h3>Population: {c.population}</h3>
+                <h3>Languages: {c.languages.map(l => <li key={l.name}>{l.name}</li>)}</h3>
+                <img style={{ width: 350, height: 200, borderColor: 'black', borderStyle: 'solid', borderWidth: 2 }} src={c.flag} alt={`${c.name} flag`} />
+                <h3>Weather: The current temperature is{}</h3>
             </div>
         )
     }
-    if (countryToShow.filter(c => c.name).length > 10) {
+    const renderButtons = (c) => {
+        return (
+            <div>
+                <h3>Results:</h3>
+                {c.map(c => <h3 key={c.name}>{c.name}  <button onClick={() => showClick(c)} value={c}>show</button></h3>)}
+            </div>
+        )
+    }
+    const renderNone = (c) => {
         return (
             <div>
                 <h3>Results:</h3>
@@ -31,14 +38,20 @@ const DisplayCountry = (props) => {
             </div>
         )
     }
+
+    const countryToShow = country.filter(p => p.name.toString().toLowerCase().indexOf(searchName.toLowerCase()) !== -1)
+
+    //render conditions
+    if (countryToShow.filter(c => c.name).length === 1) {
+        return renderAll(countryToShow[0])
+    }
+    if (countryToShow.filter(c => c.name).length > 10) {
+        return renderNone()
+    }
     if (countryToShow.filter(c => c.name).length <= 10 && countryToShow.filter(c => c.name).length !== 1) {
-        return (
-            <div>
-                <h3>Results:</h3>
-                {countryToShow.map(c => <h3 key={c.name}>{c.name}  <button onClick={() => showClick(c)} value={c}>show</button></h3>)}
-            </div>
-        )
+        return renderButtons(countryToShow)
     }
 }
+
 export default DisplayCountry;
 
