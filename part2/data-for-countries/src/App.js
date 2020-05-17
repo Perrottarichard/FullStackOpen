@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SearchBar from './components/Search';
 import DisplayCountry from './components/DisplayCountry';
-
+import Loader from './components/Loader'
 
 const App = () => {
 
@@ -10,6 +10,8 @@ const App = () => {
   const [searchName, setSearchName] = useState('')
   const [weather, setWeather] = useState([])
   const [weatherLock, setWeatherLock] = useState(true)
+  const [showWeather, setShowWeather] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const api_key = process.env.REACT_APP_API_KEY
 
@@ -18,13 +20,13 @@ const App = () => {
   }
 
   useEffect(() => {
-    axios
-      .get('https://restcountries.eu/rest/v2/all')
-      .then(Response => {
-        setCountry(Response.data)
-      })
-  }, [])
-
+    if (searchName.length > 1)
+      axios
+        .get('https://restcountries.eu/rest/v2/all')
+        .then(Response => {
+          setCountry(Response.data)
+        })
+  }, [searchName])
 
   useEffect(() => {
     if (!weatherLock) {
@@ -36,9 +38,7 @@ const App = () => {
             setWeatherLock(true)
           })
       }
-      //console.log(weather)
       getWeather();
-
       console.log('getting weather useEffect')
     }
   }, [api_key, searchName, weatherLock, setWeatherLock])
@@ -58,9 +58,17 @@ const App = () => {
         weather={weather}
         weatherLock={weatherLock}
         setWeatherLock={setWeatherLock}
+        showWeather={showWeather}
+        setShowWeather={setShowWeather}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
+      {isLoading ? <Loader /> : <p></p>}
+      {(showWeather) ? <div>
+        <h3>Current temperature is {weather.current.temperature}</h3>
+      </div> : <p></p>}
     </div>
-  );
+  )
 }
 
 export default App;

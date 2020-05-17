@@ -2,14 +2,20 @@ import React from 'react';
 
 const DisplayCountry = (props) => {
 
-    const { country, searchName, setSearchName, weather, weatherLock, setWeatherLock } = props;
+    const { country, searchName, setSearchName, setWeatherLock, weather, setShowWeather, isLoading, setIsLoading } = props;
 
     const showClick = (c) => {
         setSearchName(c.name);
         setWeatherLock(false);
-
     }
-
+    const clickShowWeather = () => {
+        setIsLoading(true);
+        setWeatherLock(false)
+        setTimeout(() => {
+            setShowWeather(true);
+            setIsLoading(false)
+        }, 3000);
+    }
     const renderAll = (c) => {
         return (
             <div>
@@ -18,7 +24,7 @@ const DisplayCountry = (props) => {
                 <h3>Population: {c.population}</h3>
                 <h3>Languages: {c.languages.map(l => <li key={l.name}>{l.name}</li>)}</h3>
                 <img style={{ width: 350, height: 200, borderColor: 'black', borderStyle: 'solid', borderWidth: 2 }} src={c.flag} alt={`${c.name} flag`} />
-                <h3>Weather: The current temperature is{}</h3>
+                <h3>Weather: <button onClick={clickShowWeather}>show</button></h3>
             </div>
         )
     }
