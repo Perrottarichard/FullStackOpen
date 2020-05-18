@@ -43,9 +43,12 @@ const App = () => {
     setEditById(event.target.value);
   }
   const removeEntry = (id) => {
-    services.remove(id).then(
-      setPersons(persons.filter(person => person.id !== id)
-      ))
+    let result = window.confirm(`Are you sure you want to delete ${persons.filter(person => person.id === id).map(single => single.name)}?`)
+    if (result) {
+      services.remove(id).then(
+        setPersons(persons.filter(person => person.id !== id)
+        ))
+    }
   }
 
   const handleSearchName = (event) => {
