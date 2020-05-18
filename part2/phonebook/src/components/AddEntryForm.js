@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 const AddEntryForm = (props) => {
 
@@ -13,6 +14,10 @@ const AddEntryForm = (props) => {
                 name: newName,
                 number: newNumber
             }
+            axios.post('http://localhost:5000/persons', listing)
+                .then(response => {
+                    console.log(response)
+                })
             setPersons(persons.concat(listing))
             setNewName('')
             setNewNumber('')
