@@ -1,13 +1,13 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
+      "name": "Ringo",
+      "number": "32342342",
       "id": 1
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
+      "name": "Jack",
+      "number": "887687687",
       "id": 2
     },
     {
@@ -16,19 +16,24 @@
       "id": 3
     },
     {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
+      "name": "George",
+      "number": "43545345",
       "id": 4
     },
     {
-      "name": "Richard Perrotta",
-      "number": "12345566677",
+      "name": "Bob",
+      "number": "121212",
       "id": 5
     },
     {
       "name": "Joe",
       "number": "987654321",
       "id": 6
+    },
+    {
+      "name": "Luigi",
+      "number": "120120120",
+      "id": 7
     }
   ]
 }

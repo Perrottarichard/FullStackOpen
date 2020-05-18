@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios';
 import AddEntryForm from './components/AddEntryForm';
 import FilterBox from './components/FilterBox';
 import DisplayDirectory from './components/DisplayDirectory';
+import services from './components/services'
+import EditEntryForm from './components/EditEntryForm';
 
 const App = () => {
 
@@ -12,12 +13,15 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
   const [showAll, setShowAll] = useState(true)
+  const [editName, setEditName] = useState('')
+  const [editNumber, setEditNumber] = useState('')
+  const [toggleForm, setToggleForm] = useState(false);
+  const [editById, setEditById] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:5000/persons')
-      .then(Response => {
-        setPersons(Response.data)
+    services.getAll()
+      .then(allPersons => {
+        setPersons(allPersons)
       })
   }, [])
 
@@ -28,6 +32,16 @@ const App = () => {
   const handleNumberInput = (event) => {
     setNewNumber(event.target.value);
   }
+  const handleNumberEdit = (event) => {
+    setEditNumber(event.target.value);
+  }
+  const handleNameEdit = (event) => {
+    setEditName(event.target.value);
+  }
+  const handleIdEdit = (event) => {
+    setEditById(event.target.value);
+  }
+
   const handleSearchName = (event) => {
     if (event.target.value.length > 0) {
       setShowAll(false)
@@ -37,6 +51,7 @@ const App = () => {
       setSearchName(event.target.value);
     }
   }
+  const showForm = () => setToggleForm(!toggleForm);
 
   return (
     <div>
@@ -52,6 +67,22 @@ const App = () => {
         handleNumberInput={handleNumberInput}
         newNumber={newNumber}
         setNewNumber={setNewNumber}
+      />
+      <EditEntryForm
+        persons={persons}
+        setPersons={setPersons}
+        editName={editName}
+        setEditName={setEditName}
+        handleNameEdit={handleNameEdit}
+        handleNumberEdit={handleNumberEdit}
+        editNumber={editNumber}
+        setEditNumber={setEditNumber}
+        toggleForm={toggleForm}
+        setToggleForm={setToggleForm}
+        showForm={showForm}
+        editById={editById}
+        setEditById={setEditById}
+        handleIdEdit={handleIdEdit}
       />
       <h2>Numbers</h2>
       <DisplayDirectory

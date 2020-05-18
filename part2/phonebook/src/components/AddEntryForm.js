@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import services from './services'
 
 const AddEntryForm = (props) => {
 
@@ -14,11 +14,9 @@ const AddEntryForm = (props) => {
                 name: newName,
                 number: newNumber
             }
-            axios.post('http://localhost:5000/persons', listing)
-                .then(response => {
-                    console.log(response)
-                })
-            setPersons(persons.concat(listing))
+            services.create(listing).then(returnedListing => {
+                setPersons(persons.concat(returnedListing))
+            })
             setNewName('')
             setNewNumber('')
         }
