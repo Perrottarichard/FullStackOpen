@@ -6,19 +6,20 @@ const EditEntryForm = (props) => {
     const { persons, setPersons, editName, setEditName, editNumber, setEditNumber, handleNumberEdit, handleNameEdit, setToggleForm, toggleForm, showForm, editById, handleIdEdit, setEditById } = props;
 
     const editEntry = (event) => {
+        event.preventDefault();
         const listing = {
             name: editName,
             number: editNumber,
         }
-        services.update(editById, listing).then(updatedListing => {
-            setPersons(persons.map(person => person.id !== editById ? person : updatedListing)
+        services.update(editById, listing).then(listing => {
+            setPersons(persons.map(person => person.id !== +editById ? person : listing)
             )
             setEditName('')
             setEditNumber('')
             setEditById('')
             setToggleForm(false)
+            console.log(persons)
         })
-        console.log(persons)
     }
 
     return (

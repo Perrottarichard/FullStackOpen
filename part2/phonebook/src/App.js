@@ -23,6 +23,7 @@ const App = () => {
       .then(allPersons => {
         setPersons(allPersons)
       })
+    console.log('useState running')
   }, [])
 
   //EVENT HANDLERS
@@ -40,6 +41,11 @@ const App = () => {
   }
   const handleIdEdit = (event) => {
     setEditById(event.target.value);
+  }
+  const removeEntry = (id) => {
+    services.remove(id).then(
+      setPersons(persons.filter(person => person.id !== id)
+      ))
   }
 
   const handleSearchName = (event) => {
@@ -59,7 +65,8 @@ const App = () => {
       <FilterBox
         searchName={searchName}
         handleSearchName={handleSearchName} />
-      <AddEntryForm persons={persons}
+      <AddEntryForm
+        persons={persons}
         setPersons={setPersons}
         newName={newName}
         setNewName={setNewName}
@@ -86,9 +93,11 @@ const App = () => {
       />
       <h2>Numbers</h2>
       <DisplayDirectory
+        setPersons={setPersons}
         persons={persons}
         showAll={showAll}
-        searchName={searchName} />
+        searchName={searchName}
+        removeEntry={removeEntry} />
     </div>
   )
 }
