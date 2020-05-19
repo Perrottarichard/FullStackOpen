@@ -3,7 +3,7 @@ import services from './services'
 
 const EditEntryForm = (props) => {
 
-    const { persons, setPersons, editName, setEditName, editNumber, setEditNumber, handleNumberEdit, handleNameEdit, setToggleForm, toggleForm, showForm, editById, handleIdEdit, setEditById } = props;
+    const { persons, setPersons, editName, setEditName, editNumber, setEditNumber, handleNumberEdit, handleNameEdit, setToggleForm, toggleForm, showForm, editById, handleIdEdit, setEditById, setErrorMessage } = props;
 
     const editEntry = (event) => {
         event.preventDefault();
@@ -11,17 +11,19 @@ const EditEntryForm = (props) => {
             name: editName,
             number: editNumber,
         }
-        services.update(editById, listing).then(listing => {
-            setPersons(persons.map(person => person.id !== +editById ? person : listing)
+        services.update(editById, listing).catch(error => {
+            setErrorMessage(
+                `That contact was already removed from server`
             )
-            setEditName('')
-            setEditNumber('')
-            setEditById('')
-            setToggleForm(false)
-            console.log(persons)
-        })
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000)
+        }).then(setPersons(persons.map(person => person.id !== +editById ? person : listing)))
+        setEditName('')
+        setEditNumber('')
+        setEditById('')
+        setToggleForm(false)
     }
-
     return (
         <div>
             <h2>Update Existing Entry By ID:</h2>

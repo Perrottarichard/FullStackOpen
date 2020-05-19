@@ -3,7 +3,7 @@ import services from './services'
 
 const AddEntryForm = (props) => {
 
-    const { persons, newName, newNumber, setPersons, setNewName, setNewNumber, handleNumberInput, handlePersonInput } = props
+    const { persons, newName, newNumber, setPersons, setNewName, setNewNumber, handleNumberInput, handlePersonInput, setSuccessMessage } = props
 
     const addEntry = (event) => {
         event.preventDefault()
@@ -18,6 +18,7 @@ const AddEntryForm = (props) => {
                 })
                 setNewName('')
                 setNewNumber('')
+                setSuccessMessage('Number successfully replaced')
             }
         }
         else if (persons.filter(p => p.name === newName).length > 0) {
@@ -33,6 +34,10 @@ const AddEntryForm = (props) => {
             })
             setNewName('')
             setNewNumber('')
+            setSuccessMessage('Contact successfully added')
+            setTimeout(() => {
+                setSuccessMessage(null)
+            }, 3000)
         }
     }
 

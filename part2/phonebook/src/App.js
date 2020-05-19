@@ -4,6 +4,8 @@ import FilterBox from './components/FilterBox';
 import DisplayDirectory from './components/DisplayDirectory';
 import services from './components/services'
 import EditEntryForm from './components/EditEntryForm';
+import SuccessMessage from './components/SuccessMessage';
+import ErrorMessage from './components/ErrorMessage';
 
 const App = () => {
 
@@ -17,13 +19,15 @@ const App = () => {
   const [editNumber, setEditNumber] = useState('')
   const [toggleForm, setToggleForm] = useState(false);
   const [editById, setEditById] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
 
   useEffect(() => {
     services.getAll()
       .then(allPersons => {
         setPersons(allPersons)
       })
-    console.log('useState running')
+    console.log('useEffect running')
   }, [])
 
   //EVENT HANDLERS
@@ -48,6 +52,18 @@ const App = () => {
       services.remove(id).then(
         setPersons(persons.filter(person => person.id !== id)
         ))
+        .catch(error => {
+          setErrorMessage(
+            `That contact was already removed from server`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        })
+      setSuccessMessage('Contact successfully deleted')
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 3000)
     }
   }
 
@@ -60,11 +76,15 @@ const App = () => {
       setSearchName(event.target.value);
     }
   }
-  const showForm = () => setToggleForm(!toggleForm);
+  const showForm = () => {
+    setToggleForm(!toggleForm);
+  }
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <SuccessMessage message={successMessage} />
+      <ErrorMessage message={errorMessage} />
       <FilterBox
         searchName={searchName}
         handleSearchName={handleSearchName} />
@@ -77,6 +97,7 @@ const App = () => {
         handleNumberInput={handleNumberInput}
         newNumber={newNumber}
         setNewNumber={setNewNumber}
+        setSuccessMessage={setSuccessMessage}
       />
       <EditEntryForm
         persons={persons}
@@ -93,6 +114,8 @@ const App = () => {
         editById={editById}
         setEditById={setEditById}
         handleIdEdit={handleIdEdit}
+        setErrorMessage={setErrorMessage}
+        setSuccessMessage={setSuccessMessage}
       />
       <h2>Numbers</h2>
       <DisplayDirectory
