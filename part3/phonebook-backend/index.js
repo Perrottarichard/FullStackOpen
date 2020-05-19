@@ -1,7 +1,18 @@
 const express = require('express');
+const morgan = require('morgan');
+
 const app = express();
 
 app.use(express.json());
+
+morgan.token('obj', function getObj(req) {
+    let pObj = {
+        name: req.body.name,
+        number: req.body.number
+    }
+    return JSON.stringify(pObj);
+})
+app.use(morgan(`:method :url :status :res[content-length] - :response-time ms :obj`))
 
 let persons = [
     {
@@ -58,8 +69,6 @@ const generateId = () => {
 
 app.post('/api/persons', (req, res) => {
     const body = req.body;
-    console.log(persons.filter(p => p.name === body.name).length > 0)
-    console.log(body)
     if (!body.name) {
         return res.status(400).json({
             error: 'name missing'
